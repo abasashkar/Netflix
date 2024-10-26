@@ -1,4 +1,3 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:netflix_app/screens/home_screen.dart';
 import 'package:netflix_app/screens/news_creen.dart';
@@ -31,34 +30,32 @@ class _BottomNavState extends State<BottomNav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: CurvedNavigationBar(
-          backgroundColor: Colors.transparent,
-          color: Colors.white,
-          buttonBackgroundColor: Colors.white,
-          height: 60,
-          index: currentTabIndex,
-          items: const <Widget>[
-            Icon(
-              Icons.home,
-              size: 30,
-              color: Colors.black,
-            ),
-            Icon(
-              Icons.search,
-              size: 30,
-              color: Colors.black,
-            ),
-            Icon(
-              Icons.photo_library_outlined,
-              size: 30,
-              color: Colors.black,
-            ),
-          ],
-          onTap: (index) {
-            setState(() {
-              currentTabIndex = index;
-            });
-          }),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentTabIndex,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.photo_album_sharp),
+            label: 'News',
+          ),
+        ],
+        onTap: (value) {
+          setState(() {
+            currentTabIndex = value;
+          });
+          // Optionally trigger a rebuild to show a blink effect
+          Future.delayed(const Duration(milliseconds: 100), () {
+            setState(() {}); // This will force a rebuild
+          });
+        },
+      ),
       body: pages[currentTabIndex],
     );
   }
