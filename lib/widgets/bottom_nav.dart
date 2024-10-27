@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:netflix_app/provider/botomnav_provider.dart';
 import 'package:netflix_app/screens/home_screen.dart';
 import 'package:netflix_app/screens/news_creen.dart';
 import 'package:netflix_app/screens/search_screen.dart';
+import 'package:provider/provider.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -29,9 +31,10 @@ class _BottomNavState extends State<BottomNav> {
 
   @override
   Widget build(BuildContext context) {
+    final botomnavprovider = Provider.of<BottomProvider>(context);
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentTabIndex,
+        currentIndex: botomnavprovider.curentabIndex,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -47,16 +50,12 @@ class _BottomNavState extends State<BottomNav> {
           ),
         ],
         onTap: (value) {
-          setState(() {
-            currentTabIndex = value;
-          });
-          // Optionally trigger a rebuild to show a blink effect
-          Future.delayed(const Duration(milliseconds: 100), () {
-            setState(() {}); // This will force a rebuild
-          });
+          botomnavprovider.updateState(value);
+
+          Future.delayed(const Duration(milliseconds: 100), () {});
         },
       ),
-      body: pages[currentTabIndex],
+      body: pages[botomnavprovider.curentabIndex],
     );
   }
 }
